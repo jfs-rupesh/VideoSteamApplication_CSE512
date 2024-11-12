@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+server/venv/
+env/
+
+# Docker Compose backup files
+docker-composebk
+consumerdk-bkup
+
+# Input files and media (if these are not essential for the repo)
+input_video.mp4
+
+# Environment variables
+.env
+*.env
+
+# Logs
+*.log
+
+# Flask specific
+server/instance/
+*.sqlite3
+*.db
+
+# Python dependencies
+*.egg-info/
+.eggs/
+*.whl
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# macOS files
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+
+# Visual Studio Code settings (if you use VS Code)
+.vscode/
