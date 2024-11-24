@@ -1,4 +1,4 @@
-# CSE512
+# This repository contains a video streaming application built using Flask, React, Kafka, MongoDB, and AWS S3. The application enables users to upload videos, which are then transcoded for streaming using FFmpeg and served through NGINX.
 .\venv\Scripts\activate  
 
 #Run docker comppose
