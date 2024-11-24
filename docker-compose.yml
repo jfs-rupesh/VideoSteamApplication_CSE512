@@ -6,8 +6,8 @@ services:
     ports:
       - "5000:5000"
     environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_ACCESS_KEY_ID: AKIAW3MEDPFB5X6VXVEB
+      AWS_SECRET_ACCESS_KEY: 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
     depends_on:
       - kafka
       - mongodb
@@ -32,3 +32,5 @@ services:
     image: mongo
     ports:
       - "27017:27017"
+
+      
