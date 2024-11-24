@@ -4,8 +4,8 @@ import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
 # Set up S3 client using environment variables
-aws_access_key = 'AKIAW3MEDPFB5X6VXVEB'
-aws_secret_key = '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'
+aws_access_key = '*'
+aws_secret_key = '*'
 
 s3_client = boto3.client(
     's3',

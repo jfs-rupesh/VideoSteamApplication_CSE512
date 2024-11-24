@@ -26,8 +26,8 @@ logger = logging.getLogger(__name__)
 
 # AWS S3 setup
 # Load AWS credentials from environment variables
-aws_access_key = 'AKIAW3MEDPFB5X6VXVEB'
-aws_secret_key = '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'
+aws_access_key = '*'
+aws_secret_key = '*'
 
 
 s3_client = boto3.client(
