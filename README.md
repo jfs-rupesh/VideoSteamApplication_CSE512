@@ -1,84 +1,128 @@
 
-# This repository contains a video streaming application built using Flask, React, Kafka, MongoDB, and AWS S3. The application enables users to upload videos, which are then transcoded for streaming using FFmpeg and served through NGINX.
-.\venv\Scripts\activate  
 
-#Run docker comppose
-docker-compose up --build
+# Video Streaming Application
 
-#postman API
-curl --location 'http://127.0.0.1:5000//api/upload' \
---form 'video=@"/C:/Users/91966/OneDrive/Desktop/video/sample-5s.mp4"'
+This is a distributed video streaming application built with a Flask backend and a React frontend. It supports video upload, transcoding, search, and playback functionalities.
 
+---
 
-# Process the message here (download, transcode, upload)
-# Implement transcoding and other logic here
-# Example: Transcode video, save to S3, etc.
-# Consume messages from Kafka
-# def process_video_message(message):
-#     video_data = message.value
-#     video_url = video_data['video_url']
-    
-#     # Download video from S3
-#     video_response = requests.get(video_url, stream=True)
-#     input_file_path = '/tmp/input_video.mp4'
-    
-#     with open(input_file_path, 'wb') as f:
-#         for chunk in video_response.iter_content(chunk_size=8192):
-#             f.write(chunk)
-    
-#     # Transcode video using FFmpeg
-#     output_file_path = '/tmp/output_video.m3u8'
-#     ffmpeg.input(input_file_path).output(output_file_path, format='hls', hls_time=10, hls_list_size=0).run()
+## **Project Structure**
 
-#     # Optionally upload transcoded video back to S3
-#     s3_client.upload_file(output_file_path, 'video-stream-cse512', f'transcoded_videos/{os.path.basename(output_file_path)}')
+### **Backend**
+Located in `VideoSteamApplication_CSE512`.
 
-#     print(f"Processed video: {video_url}")
+- **`server/`**: Contains the backend Flask application.
+- **`docker-compose.yml`**: Docker Compose file to run backend services.
 
-# def process_video_message_v2(message):
-    # video_data = message.value
-    # object_key = video_data.get('video_key')  # Change to 'video_key' to specify S3 key in message
-    
-    # if not object_key:
-    #     print("Error: 'video_key' missing in message")
-    #     return
+### **Frontend**
+Located in `videoPlayer/video-frontend`.
 
-    # # input_file_path = 'input_video.mp4'
-    # # output_file_path = 'output_video.m3u8'
-    
-    # try:
-    #     # Step 1: Download video directly from S3 using boto3
-    #     print(f"Downloading video from S3 bucket {BUCKET_NAME} with key {object_key}")
-        
-    #     # Download the video file directly from S3 to local storage
-    #     s3_client.download_file(BUCKET_NAME, object_key, input_file_path)
-        
-    #     # Check if the file is larger than 1 KB to validate download
-    #     if os.path.getsize(input_file_path) <= 1024:
-    #         print("Downloaded file size is too small. Possible download error.")
-    #         return
+- **React Frontend**: React application for user interface.
 
-    #     # Step 2: Transcode video using FFmpeg
-    #     print("Transcoding video to HLS format")
-    #     ffmpeg.input(input_file_path).output(output_file_path, format='hls', hls_time=10, hls_list_size=0).run()
-        
-    #     # Step 3: Upload transcoded video back to S3
-    #     transcoded_key = f'transcoded_videos/{os.path.basename(output_file_path)}'
-    #     print(f"Uploading transcoded video to S3: {transcoded_key}")
-        
-    #     s3_client.upload_file(output_file_path, BUCKET_NAME, transcoded_key)
-    #     print(f"Processed and uploaded video: {object_key}")
-    
-    # except (BotoCoreError, ClientError) as e:
-    #     print(f"Failed to download or upload to S3: {e}")
-    
-    # except ffmpeg.Error as e:
-    #     print(f"FFmpeg error during transcoding: {e}")
-    
-    # finally:
-    #     # Cleanup temporary files
-    #     if os.path.exists(input_file_path):
-    #         os.remove(input_file_path)
-    #     if os.path.exists(output_file_path):
-    #         os.remove(output_file_path)
+---
 
+## **Prerequisites**
+
+Before running the application, ensure the following are installed:
+
+- Docker and Docker Compose
+- Node.js and npm
+- MongoDB and Kafka (or use Docker for these services)
+- AWS S3 bucket for video storage
+- Python (optional for manual backend testing)
+
+---
+
+## **Environment Variables**
+
+Ensure that you set up the `.env` file in the backend with the following values:
+
+```env
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+MONGO_URI=mongodb://mongodb:27017/
+KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+```
+
+Replace placeholders with your actual configuration values.
+
+---
+
+## **Running the Application**
+
+### **Step 1: Start Backend with Docker Compose**
+
+1. Open a terminal and navigate to the backend directory:
+   ```bash
+   cd DDS_Project_Final\VideoSteamApplication_CSE512
+   ```
+
+2. Run the following command to start the backend:
+   ```bash
+   docker-compose up --build
+   ```
+
+   This will:
+   - Build and start the Flask backend.
+   - Start MongoDB and Kafka services (if included in `docker-compose.yml`).
+
+3. The backend will be accessible at `http://localhost:5000`.
+
+---
+
+### **Step 2: Install and Start Frontend**
+
+1. Open another terminal and navigate to the frontend directory:
+   ```bash
+   cd DDS_Project_Final\videoPlayer/video-frontend
+   ```
+
+2. Install the required dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the React application:
+   ```bash
+   npm start
+   ```
+
+4. The frontend will be accessible at `http://localhost:3000`.
+
+---
+
+### **Step 3: Test the Application**
+
+1. Open a web browser and navigate to `http://localhost:3000`.
+2. Use the frontend to:
+   - Upload videos.
+   - Search for uploaded videos.
+   - Play videos from the video list or via a direct URL.
+
+---
+
+## **Using the Application**
+
+### **Admin View**
+Click the **Admin** button in the menu to switch to the admin view. This mode allows uploading videos and managing content.
+
+### **Search Videos**
+Use the search bar to find videos by title.
+
+### **Video Playback**
+Click on a video from the search results or enter a `.m3u8` URL in the input field to play a video.
+
+---
+
+## **Troubleshooting**
+
+- **MongoDB Connection Error**: Ensure the MongoDB service is running and reachable from the Flask backend.
+- **Kafka Consumer Issues**: Verify that the Kafka topic `video-uploads` exists and the Kafka broker is running.
+- **S3 Access Issues**: Check the AWS credentials and S3 bucket configuration in `.env`.
+
+---
+## **Additional Notes**
+
+- The `input_video.mp4` file is a sample video for testing.
+- The `README.md` file contains instructions for both manual and Dockerized setups.
+- Logs are available in the Docker console for debugging.
