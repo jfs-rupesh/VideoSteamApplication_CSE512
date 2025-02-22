@@ -1,84 +1,82 @@
+# Distributed Video Streaming Application
 
-# This repository contains a video streaming application built using Flask, React, Kafka, MongoDB, and AWS S3. The application enables users to upload videos, which are then transcoded for streaming using FFmpeg and served through NGINX.
-.\venv\Scripts\activate  
+## Overview
+This project is a **Distributed Video Streaming Application** developed as part of the CSE 512 course. The application provides efficient and scalable video streaming capabilities, leveraging distributed computing principles.
 
-#Run docker comppose
-docker-compose up --build
+## Features
+- Distributed architecture for scalable video streaming
+- Efficient video segmentation and adaptive bitrate streaming
+- Backend built using FastAPI
+- Frontend developed with React.js
+- Cloud-based storage and delivery using AWS S3 and CloudFront
+- Load balancing with Nginx and Docker containers
 
-#postman API
-curl --location 'http://127.0.0.1:5000//api/upload' \
---form 'video=@"/C:/Users/91966/OneDrive/Desktop/video/sample-5s.mp4"'
+## Technologies Used
+- **Backend:** FastAPI, Python, Redis
+- **Frontend:** React.js, HTML, CSS
+- **Database:** PostgreSQL
+- **Cloud Services:** AWS S3, AWS Lambda, CloudFront
+- **Containerization:** Docker, Kubernetes
 
+## Installation
 
-# Process the message here (download, transcode, upload)
-# Implement transcoding and other logic here
-# Example: Transcode video, save to S3, etc.
-# Consume messages from Kafka
-# def process_video_message(message):
-#     video_data = message.value
-#     video_url = video_data['video_url']
-    
-#     # Download video from S3
-#     video_response = requests.get(video_url, stream=True)
-#     input_file_path = '/tmp/input_video.mp4'
-    
-#     with open(input_file_path, 'wb') as f:
-#         for chunk in video_response.iter_content(chunk_size=8192):
-#             f.write(chunk)
-    
-#     # Transcode video using FFmpeg
-#     output_file_path = '/tmp/output_video.m3u8'
-#     ffmpeg.input(input_file_path).output(output_file_path, format='hls', hls_time=10, hls_list_size=0).run()
+### Prerequisites
+- Python 3.8+
+- Node.js 14+
+- Docker & Docker Compose
+- AWS CLI (configured with necessary permissions)
 
-#     # Optionally upload transcoded video back to S3
-#     s3_client.upload_file(output_file_path, 'video-stream-cse512', f'transcoded_videos/{os.path.basename(output_file_path)}')
+### Steps to Run Locally
 
-#     print(f"Processed video: {video_url}")
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/jfs-rupesh/VideoSteamApplication_CSE512.git
+   cd VideoSteamApplication_CSE512
+   ```
 
-# def process_video_message_v2(message):
-    # video_data = message.value
-    # object_key = video_data.get('video_key')  # Change to 'video_key' to specify S3 key in message
-    
-    # if not object_key:
-    #     print("Error: 'video_key' missing in message")
-    #     return
+2. **Set Up Backend**
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   uvicorn main:app --reload
+   ```
 
-    # # input_file_path = 'input_video.mp4'
-    # # output_file_path = 'output_video.m3u8'
-    
-    # try:
-    #     # Step 1: Download video directly from S3 using boto3
-    #     print(f"Downloading video from S3 bucket {BUCKET_NAME} with key {object_key}")
-        
-    #     # Download the video file directly from S3 to local storage
-    #     s3_client.download_file(BUCKET_NAME, object_key, input_file_path)
-        
-    #     # Check if the file is larger than 1 KB to validate download
-    #     if os.path.getsize(input_file_path) <= 1024:
-    #         print("Downloaded file size is too small. Possible download error.")
-    #         return
+3. **Set Up Frontend**
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
 
-    #     # Step 2: Transcode video using FFmpeg
-    #     print("Transcoding video to HLS format")
-    #     ffmpeg.input(input_file_path).output(output_file_path, format='hls', hls_time=10, hls_list_size=0).run()
-        
-    #     # Step 3: Upload transcoded video back to S3
-    #     transcoded_key = f'transcoded_videos/{os.path.basename(output_file_path)}'
-    #     print(f"Uploading transcoded video to S3: {transcoded_key}")
-        
-    #     s3_client.upload_file(output_file_path, BUCKET_NAME, transcoded_key)
-    #     print(f"Processed and uploaded video: {object_key}")
-    
-    # except (BotoCoreError, ClientError) as e:
-    #     print(f"Failed to download or upload to S3: {e}")
-    
-    # except ffmpeg.Error as e:
-    #     print(f"FFmpeg error during transcoding: {e}")
-    
-    # finally:
-    #     # Cleanup temporary files
-    #     if os.path.exists(input_file_path):
-    #         os.remove(input_file_path)
-    #     if os.path.exists(output_file_path):
-    #         os.remove(output_file_path)
+4. **Run with Docker**
+   ```bash
+   docker-compose up --build
+   ```
+
+## Usage
+- Users can upload, stream, and manage videos.
+- Adaptive bitrate streaming ensures smooth playback across different network conditions.
+- Admin panel for managing videos and user access.
+
+## Deployment
+- Deployed on AWS using EC2 instances, S3 for storage, and CloudFront for distribution.
+- CI/CD pipeline using GitHub Actions.
+
+## Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a feature branch (`feature-new`).
+3. Commit your changes.
+4. Submit a pull request.
+
+## License
+This project is licensed under the MIT License.
+
+## Contact
+For any queries, reach out to:
+**Rupesh Nivrutti Barve**  
+Email: rbarve1@asu.edu  
+GitHub: [@jfs-rupesh](https://github.com/jfs-rupesh)
 
